@@ -9,11 +9,11 @@ myclient = pymongo.MongoClient("mongodb+srv://hakimimouad:admin@cluster0.mobs5qu
 mydb = myclient["vls"]
 mycol = mydb["stations"]
 
-x = 50.634178
-y = 3.048710
+x = g.lat
+y = g.lng
 
 
-mycolcursor = mydb.stations.find({},{ "_id": 0, "name": 1, "geometry.coordinates": 1 })
+mycolcursor = mydb.stations.find({},{ "_id": 1, "name": 1, "geometry.coordinates": 1 })
 
 for i in mycolcursor:
   z = i.get("geometry")
