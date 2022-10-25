@@ -2,23 +2,32 @@ import geocoder
 import pymongo
 
 g = geocoder.ip('me')
-print(g.latlng)
 
 
 myclient = pymongo.MongoClient("mongodb+srv://hakimimouad:admin@cluster0.mobs5qu.mongodb.net/test")
 mydb = myclient["vls"]
 mycol = mydb["stations"]
 
-x = g.lat
-y = g.lng
+x = 50.634940
+y = 3.046680
 
 
 mycolcursor = mydb.stations.find({},{ "_id": 1, "name": 1, "geometry.coordinates": 1 })
 
+mycolcursor_2 = mydb.datas.find({},{"_id":0,"station_id":1, "bike_availbale":1,"stand_availbale":1})
+
+
 for i in mycolcursor:
-  z = i.get("geometry")
-  w = z.get("coordinates")
-  if(w[0]<y+0.003 and w[0]>y-0.003):
-      if(w[1]<x+0.003 and w[1]>x-0.003):
-          print(i)
+    id = i.get("_id")
+    z = i.get("geometry")
+    w = z.get("coordinates")
+    if(w[0]<y+0.003 and w[0]>y-0.003):
+        if(w[1]<x+0.003 and w[1]>x-0.003):
+            for j in mycolcursor_2:
+                idd = j.get("station_id")
+                if(id==idd):
+                    velo = j.get("bike_availbale")
+                    stand = j.get("stand_availbale")
+                    print("La station est: "+i.get("name")+ " avec "+str(velo)+" velos disponibles et "+str(stand)+" places disponibles")
+                
 
