@@ -1,3 +1,2 @@
-geopy
 geocoder
 pymongo
