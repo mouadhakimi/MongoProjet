@@ -106,33 +106,9 @@ if 1 <= choix <= 3:
             collection_stations.delete_one(station_to_edit)
 
 elif choix == 4:
-    # disable Station in an area
-    # get the area with geojson.io
-    print("Draw your polygon geojson.io")
-    geojson_file = input("geojson file :")
-    geojson_file = json.loads(open(geojson_file).read().replace("\n",""))
-    geoquery = { 
-        "geo": {
-            "$geoWithin": {
-                "$geometry": geojson_file["features"][0]['geometry']
-         }
-    }}
-    # pprint(geojson_file) # For debug
-    cursor = collection_stations.find(geoquery)
-    for station in cursor:
-        pprint(station)
-    
-    while True:
-        what_to_do = input("disable / enable (d/e):")
-        if what_to_do == "e" or what_to_do == "d":
-            break
 
-    if what_to_do == "e":
-        cursor = collection_stations.update_many(geoquery, {"$set": {"status": True}})
-    elif what_to_do == "d":
-        cursor = collection_stations.update_many(geoquery, {"$set": {"status": False}})
-    else:
-        pass
+    print("deavtivate")
+    
 
 if choix == 5:
     # give all stations with a ratio bike/total_stand under 20% between 18h and 19h00 (between two aribtrary dates)
